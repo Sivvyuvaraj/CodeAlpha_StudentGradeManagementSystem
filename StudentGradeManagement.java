@@ -13,28 +13,60 @@ public class StudentGradeManagement {
 		in.nextLine();
 		System.out.println("Enter Student Name");
 		Name.add(in.nextLine());
-		
-		 Double[] marks=new Double[subjects];
+	 Double[] marks=new Double[subjects];
+		 
 		for(int i=0;i<subjects;i++) {
-			// System.out.println("DEBUG: loop iteration i=" + i); // temporary line
-			    System.out.print("Enter Mark for Subject : "+ (i+1));
-			    
-			double temp=in.nextDouble();	
-
-	        if (temp < 0 || temp > 100) {
-	            System.out.println("Invalid Marks Input, try again");
-	            // NO break here — while(true) loops again, same subject i
+			   while(true) {
+			 System.out.print("Enter Mark for Subject "+(i+1)+ ":");  
+			double temp=in.nextDouble(); 
+			if (temp>=0 && temp<=100) {
+	               marks[i]=temp;
+	               break;
 	        } else {
-	            marks[i] = temp;
-	            break; // valid mark — exit the while, go to next subject
+	            System.out.println("Invalid Marks Input, try again");
 	        }
+		}
+			  
+			}
+		 marksList.add(marks);
+			System.out.println("Student succesfully added");
+		}
+	
+	static void displayreport() {
+		if(Name.isEmpty()==true) {
+			System.out.println("No Students were added...Try again after Student added");
+			return;
+		}
+		System.out.println("========== STUDENT REPORT ==========");
 		
-	}
-		marksList.add(marks);
+		for(int i=0;i<Name.size();i++) {
+			System.out.println("Student's Name :"+Name.get(i));
 		
-		
-		System.out.println("Student succesfully added");
-	}
+		Double[] marks=marksList.get(i);
+		double sum=0;
+		double Average=0;
+		boolean passed=true;
+			for (int j=0;j<subjects;j++) {
+				sum+=marks[j];
+				 if (marks[j]<35) {
+					passed=false;
+					break;
+					
+				}
+				
+			}
+			Average=sum/subjects;
+				System.out.println(Average);
+				if(passed) {
+					System.out.println("Passed in All subjects");
+				}
+				else {
+					System.out.println("Failed.....");
+				}
+			}
+			
+		}
+	
 	
 	public static void main(String[]args) {
 		boolean run=true;
@@ -49,7 +81,7 @@ public class StudentGradeManagement {
 	        int choose=in.nextInt();
 	        switch (choose) {
 	        case 1 -> addstudent();
-	        case 2 -> System.out.println("You Choosed Display Report...");
+	        case 2 -> displayreport();
 	        case 3 ->{
 	        	System.out.println("Exit...");
 	        	run=false;
